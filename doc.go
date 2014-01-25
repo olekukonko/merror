@@ -1,5 +1,3 @@
-package merror
-
 // Copyright 2014 Oleku Konko All rights reserved.
 // Use of this source code is governed by a MIT
 // license that can be found in the LICENSE file.
@@ -20,7 +18,7 @@ To Install
 
 Run `go get github.com/olekukonko/merror` to download and install
 
-Example
+Example 1
 
 	package main
 
@@ -44,8 +42,41 @@ Example
 		// Print Error
 		fmt.Println(err)
 		// Output:
-		// Error A
-		// Error B
+		// Error A; Error B
 	}
 
+
+Example 2
+
+
+	package main
+
+	import (
+		"fmt"
+		"errors"
+		"github.com/olekukonko/merror"
+		"os"
+	)
+
+	func main() {
+		// new Multiple Error
+		err := merror.Multi()
+
+		// Append Simple error
+		err.Append(errors.New("Error A"))
+
+		// Append Multiple
+		err.Append(errors.New("Error B"),errors.New("Error C"))
+
+		// Send to output command line or http
+		err.Tab(os.Stdout)
+		// Output:
+		// 3 Error(s) Found
+		//     - Error A
+		//     - Error B
+		//     - Error C
+	}
+
+
 **/
+package merror
