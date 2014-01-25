@@ -1,7 +1,7 @@
 merror (Multiple Error)
 ==
 
-[![Build Status](https://travis-ci.org/olekukonko/ts.png?branch=master)](https://travis-ci.org/olekukonko/ts) [![Total views](https://sourcegraph.com/api/repos/github.com/olekukonko/ts/counters/views.png)](https://sourcegraph.com/github.com/olekukonko/ts)
+[![Build Status](https://travis-ci.org/olekukonko/merror.png?branch=master)](https://travis-ci.org/olekukonko/ts) [![Total views](https://sourcegraph.com/api/repos/github.com/olekukonko/merror/counters/views.png)](https://sourcegraph.com/github.com/olekukonko/merror)
 
 Simple Multiple error management in `go`. Some features include :
 
