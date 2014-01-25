@@ -27,7 +27,9 @@ import (
 )
 
 func main() {
-	var err merror.Errors
+
+    // new Multiple Error
+	err := merror.Multi()
 
 	// Append Simple error
 	err.Append(errors.New("Error A"))
