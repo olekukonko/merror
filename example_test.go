@@ -6,7 +6,7 @@ import (
 )
 
 var (
-	errorList = []error{errors.New("one"),
+	ErrorSample = []error{errors.New("one"),
 	errors.New("two"),
 	errors.New("three")}
 )
@@ -59,9 +59,9 @@ func ExampleHasError() {
 func ExampleRace() {
 	var err  Errors
 	for i := 0 ; i < 3 ; i ++ {
-		go func() {
-			err.Append(fmt.Errorf("Error %d", i))
-		}()
+		go func(e Errors) {
+			e.Append(fmt.Errorf("Error %d", i))
+		}(err)
 	}
 
 	fmt.Println(err)
@@ -73,7 +73,7 @@ func ExampleRace() {
 // Using Error Display
 func ExampleDisplay() {
 	var err  Errors
-	err.Append(errorList...)
+	err.Append(ErrorSample...)
 	fmt.Println(err)
 	// Output:
 	//	3  Error(s) Found

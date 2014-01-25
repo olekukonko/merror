@@ -7,7 +7,7 @@ import (
 
 func TestTab(t *testing.T) {
 	var err Errors
-	err.Append(errorList...)
+	err.Append(ErrorSample...)
 	buf := new(bytes.Buffer)
 	display := err.Display(buf)
 	display.Tab()
@@ -19,7 +19,7 @@ func TestTab(t *testing.T) {
 
 func TestLine(t *testing.T) {
 	var err Errors
-	err.Append(errorList...)
+	err.Append(ErrorSample...)
 	buf := new(bytes.Buffer)
 	display := err.Display(buf)
 	display.Line()

@@ -21,7 +21,6 @@ func (e *Errors) Append(err ...error) {
 	}
 }
 
-
 func (e *Errors) Merge(err Errors) {
 	mux.Lock()
 	defer mux.Unlock()

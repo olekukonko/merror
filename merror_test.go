@@ -15,7 +15,7 @@ func TestEmpty(t *testing.T) {
 
 func TestLength(t *testing.T) {
 	var err Errors
-	err.Append(errorList...)
+	err.Append(ErrorSample...)
 
 	if len(err) != 3 {
 		t.Error("Error Lenght does not match")
@@ -33,12 +33,12 @@ func TestLength(t *testing.T) {
 
 func TestClear(t *testing.T) {
 	var err Errors
-	err.Append(errorList...)
+	err.Append(ErrorSample...)
 	err.Clear()
 	if err.HasError() {
 		t.Error("There should be no errors after clear")
 	}
-	err.Append(errorList[0])
+	err.Append(ErrorSample[0])
 
 	if !err.HasError() {
 		t.Error("There should be error after append")
@@ -47,8 +47,8 @@ func TestClear(t *testing.T) {
 
 func TestAppend(t *testing.T) {
 	var err Errors
-	err.Append(errorList...)
-	err = append(err, errorList...)
+	err.Append(ErrorSample...)
+	err = append(err, ErrorSample...)
 	if err.Len() != 6 {
 		t.Error("Multiple Append should work")
 	}
@@ -59,7 +59,7 @@ func TestRace(t *testing.T) {
 
 	for i := 0; i < 10; i++ {
 		go func() {
-			err.Append(errorList...)
+			err.Append(ErrorSample...)
 		}()
 	}
 
@@ -73,7 +73,7 @@ func TestRace(t *testing.T) {
 
 func TestString(t *testing.T) {
 	var err Errors
-	err.Append(errorList...)
+	err.Append(ErrorSample...)
 	expect := "one; two; three"
 	if expect != err.String() {
 		t.Error("Output String not consitent")
@@ -85,7 +85,7 @@ func TestString(t *testing.T) {
 func TestMerge(t *testing.T) {
 	var err1 , err2  Errors
 
-	err1.Append(errorList...)
+	err1.Append(ErrorSample...)
 	err2.Append(errors.New("four"))
 
 	expect := "one; two; three; four"

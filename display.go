@@ -5,7 +5,6 @@ import (
 	"io"
 )
 
-
 type Display struct {
 	e Errors
 	w io.Writer
