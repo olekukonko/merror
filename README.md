@@ -5,9 +5,8 @@ merror (Multiple Error)
 
 Simple Multiple error management in `go`. Some features include :
 
-- Thread Safe
 - Merge Multiple error
-- Support default `append` & `len`
+- Similar Methods `Append` & `Len`
 - Multiple Displays `string` , `line` or `Tab`
 - No External dependency
 
@@ -32,9 +31,6 @@ func main() {
 
 	// Append Simple error
 	err.Append(errors.New("Error A"))
-
-	// Use default append
-    err = append(err,errors.New("Error B"))
 
 	// Print Error
 	fmt.Println(err)

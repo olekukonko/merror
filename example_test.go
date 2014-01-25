@@ -1,19 +1,21 @@
 package merror
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
+	"io/ioutil"
 )
 
 var (
 	ErrorSample = []error{errors.New("one"),
-	errors.New("two"),
-	errors.New("three")}
+		errors.New("two"),
+		errors.New("three")}
 )
 
 // Basic Usage Example
 func ExampleBasic() {
-	var err Errors
+	err := Multi()
 	// Append Simple error
 	err.Append(errors.New("Error Msg"))
 
@@ -27,22 +29,22 @@ func ExampleBasic() {
 // Multiple Append Example
 func ExampleMultipleAppend() {
 
-	err := Errors{}
+	err := Multi()
 
 	// Supports default append
-	err = append(err, errors.New("Error A"))
+	err.Append(errors.New("Error A"))
 
 	// Support Multiple via append
 	err.Append(fmt.Errorf("%s", "Error B"), errors.New("Error C"))
 
 	fmt.Println(err)
 	// Output:
-	// Error Error A; Error B; Error C
+	// Error A; Error B; Error C
 }
 
 // Check if error exists
 func ExampleHasError() {
-	var err Errors
+	err := Multi()
 
 	// Supports default append
 	err.Append(errors.New("Error A"))
@@ -52,40 +54,34 @@ func ExampleHasError() {
 		fmt.Println(err)
 	}
 	// Output:
-	// Error Error A; Error B; Error C
+	// Error A
 }
 
-// Using Error in Multiple Goroutines
-func ExampleRace() {
-	var err  Errors
-	for i := 0 ; i < 3 ; i ++ {
-		go func(e Errors) {
-			e.Append(fmt.Errorf("Error %d", i))
-		}(err)
-	}
+// Using Tab Display
+func ExampleTabDisplay() {
+	err := Multi()
+	buf := new(bytes.Buffer)
 
-	fmt.Println(err)
-
-	// Output:
-	// Error Error 1; Error 2; Error 3
-}
-
-// Using Error Display
-func ExampleDisplay() {
-	var err  Errors
 	err.Append(ErrorSample...)
-	fmt.Println(err)
+	err.Tab(buf)
+
+	fmt.Println(buf.Bytes())
 	// Output:
-	//	3  Error(s) Found
-	//	- one
-	//	- two
-	//	- three
+	// [32 51 32 69 114 114 111 114 40 115 41 32 70 111 117 110 100 10 32 32 45 32 111 110 101 10 32 32 45 32 116 119 111 10 32 32 45 32 116 104 114 101 101 10 10]
 }
 
+// Using Line Display
+func ExampleLineDisplay() {
+	err := Multi()
+	buf := new(bytes.Buffer)
 
+	err.Append(ErrorSample...)
+	err.Line(buf)
 
+	ioutil.WriteFile("out.txt",buf.Bytes(),755)
 
+	fmt.Println(buf.Bytes())
+	// Output:
+	// [111 110 101 9 10 116 119 111 9 10 116 104 114 101 101 9 10 10]
 
-
-
-
+}

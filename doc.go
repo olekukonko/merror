@@ -11,9 +11,8 @@ package merror
 
 Simple Multiple error management in `go`. Some features include :
 
-- Thread Safe
 - Merge Multiple error
-- Support default `append` & `len`
+- Similar Methods `Append` & `Len`
 - Multiple Displays `string` , `line` or `Tab`
 - No External dependency
 

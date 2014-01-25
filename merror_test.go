@@ -1,28 +1,25 @@
 package merror
 
 import (
+	"bytes"
 	"errors"
+	//"fmt"
 	"testing"
 )
 
-
-func TestEmpty(t *testing.T) {
-	var err Errors
-	if err != nil {
-		t.Error("An Errors should be Nill")
-	}
-}
-
+// Test error item length
 func TestLength(t *testing.T) {
-	var err Errors
+	err := Multi()
 	err.Append(ErrorSample...)
 
-	if len(err) != 3 {
+	//fmt.Println("Total", err.List())
+
+	if len(err.List()) != 3 {
 		t.Error("Error Lenght does not match")
 	}
 
-	if len(err) != err.Len() {
-		t.Error("len & Len should be same value")
+	if len(err.List()) != err.Len() {
+		t.Error("List Lenght & Len should be same value")
 	}
 
 	if !err.HasError() {
@@ -31,8 +28,9 @@ func TestLength(t *testing.T) {
 
 }
 
+// Test ability to clear error items
 func TestClear(t *testing.T) {
-	var err Errors
+	err := Multi()
 	err.Append(ErrorSample...)
 	err.Clear()
 	if err.HasError() {
@@ -45,34 +43,20 @@ func TestClear(t *testing.T) {
 	}
 }
 
+// Test Multiple Append
 func TestAppend(t *testing.T) {
-	var err Errors
+	err := Multi()
 	err.Append(ErrorSample...)
-	err = append(err, ErrorSample...)
+	err.Append(ErrorSample...)
+
 	if err.Len() != 6 {
 		t.Error("Multiple Append should work")
 	}
 }
 
-func TestRace(t *testing.T) {
-	var err Errors
-
-	for i := 0; i < 10; i++ {
-		go func() {
-			err.Append(ErrorSample...)
-		}()
-	}
-
-	for i := 0; i < 10; i++ {
-		go func() {
-			err.Len()
-		}()
-	}
-
-}
-
+// Test String Output
 func TestString(t *testing.T) {
-	var err Errors
+	err := Multi()
 	err.Append(ErrorSample...)
 	expect := "one; two; three"
 	if expect != err.String() {
@@ -80,10 +64,10 @@ func TestString(t *testing.T) {
 	}
 }
 
-
-
+// Test error merging
 func TestMerge(t *testing.T) {
-	var err1 , err2  Errors
+
+	err1, err2 := Multi(), Multi()
 
 	err1.Append(ErrorSample...)
 	err2.Append(errors.New("four"))
@@ -97,4 +81,28 @@ func TestMerge(t *testing.T) {
 	}
 }
 
+// Test Tab Output
+func TestTab(t *testing.T) {
+	err := Multi()
+	buf := new(bytes.Buffer)
 
+	err.Append(ErrorSample...)
+	err.Tab(buf)
+
+	if buf.String() == "" {
+		t.Error("Tab Result Should not be empty")
+	}
+}
+
+// Test Line Output
+func TestLine(t *testing.T) {
+	err := Multi()
+	buf := new(bytes.Buffer)
+
+	err.Append(ErrorSample...)
+	err.Line(buf)
+
+	if buf.String() == "" {
+		t.Error("Line Result Shwould not be empty")
+	}
+}
